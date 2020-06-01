@@ -1,0 +1,6 @@
+[submodule "pack"]
+	path = pack
+	url = https://github.com/saherelm/xFrameworkModules.git
+[submodule "resources"]
+	path = resources
+	url = https://github.com/saherelm/xFrameworkResources.git
