@@ -1,6 +1,15 @@
 #!/bin/bash
 
 #
+# Public Variables ...
+PACK=./pack
+VERSION=0.0.1
+RESOURCE=../../resources
+CORE=$PACK/x-framework-core-$VERSION.tgz
+SERVICES=$PACK/x-framework-services-$VERSION.tgz
+COMPONENTS=$PACK/x-framework-components-$VERSION.tgz
+
+#
 # Failed App ...
 function failed() {
   echo " "
@@ -52,7 +61,7 @@ function prepareProject() {
   echo " "
   echo "Installing Dependencies ..."
   read -r -p "press any key to coninue ..." anykey
-  npm install @angular/router @angular/material-moment-adapter @angular/flex-layout @ionic/angular hammerjs angular-gridster2@9.1.0 crypto-js@4.0.0 howler@2.1.3 jalali-moment@3.3.3 libphonenumber-js@1.7.48 md5-typescript@1.0.5 moment@2.24.0 ngx-device-detector@1.4.1 ngx-md@8.1.6 ol@6.2.1 ol-ext@3.1.10
+  npm install -s @angular/router @angular/material-moment-adapter @angular/flex-layout @ionic/angular hammerjs angular-gridster2@9.1.0 crypto-js@4.0.0 howler@2.1.3 jalali-moment@3.3.3 libphonenumber-js@1.7.48 md5-typescript@1.0.5 moment@2.24.0 ngx-device-detector@1.4.1 ngx-md@8.1.6 ol@6.2.1 ol-ext@3.1.10
 
   echo " "
   echo "Installing XFramework Modules ..."
@@ -81,16 +90,16 @@ function prepareProject() {
   if [ ! -d "./src/app/config" ]; then
     mkdir ./src/app/config
   fi
-  cp -R ../../resources/config/. ./src/app/config/
-  cp -R ../../resources/environments/. ./src/environments
+  cp -R $RESOURCE/config/. ./src/app/config/
+  cp -R $RESOURCE/environments/. ./src/environments
   if [ -f "./src/favicon.ico" ]; then
     rm ./src/favicon.ico || true
   fi
-  cp -R ../../resources/favicon.png ./src/assets/icon/
+  cp -R $RESOURCE/favicon.png ./src/assets/icon/
   mkdir ./src/assets/image
-  cp -R ../../resources/favicon.png ./src/assets/image/logo.png
-  cp -R ../../resources/index.html ./src/
-  cp -R ../../resources/main.ts ./src/
+  cp -R $RESOURCE/favicon.png ./src/assets/image/logo.png
+  cp -R $RESOURCE/index.html ./src/
+  cp -R $RESOURCE/main.ts ./src/
   if [ -f "./src/styles.scss" ]; then
     rm ./src/styles.scss || true
   fi
@@ -103,19 +112,19 @@ function prepareProject() {
   if [ -f "./src/app/app.component.spec.ts" ]; then
     rm ./src/app/app.component.spec.ts || true
   fi
-  cp -R ../../resources/app.module.ts ./src/app
-  cp -R ../../resources/app.component.ts ./src/app
-  cp -R ../../resources/app.component.scss ./src/app
-  cp -R ../../resources/app.component.html ./src/app
-  cp -R ../../resources/app-routing.module.ts ./src/app
-  cp -R ../../resources/views/. ./src/app/views/
-  cp -R ../../resources/pages/. ./src/app/pages/
-  cp -R ../../resources/.editorconfig ./
-  cp -R ../../resources/theme/. ./src/theme
+  cp -R $RESOURCE/app.module.ts ./src/app
+  cp -R $RESOURCE/app.component.ts ./src/app
+  cp -R $RESOURCE/app.component.scss ./src/app
+  cp -R $RESOURCE/app.component.html ./src/app
+  cp -R $RESOURCE/app-routing.module.ts ./src/app
+  cp -R $RESOURCE/views/. ./src/app/views/
+  cp -R $RESOURCE/pages/. ./src/app/pages/
+  cp -R $RESOURCE/.editorconfig ./
+  cp -R $RESOURCE/theme/. ./src/theme
 
   #
   # Fix angular.json File ...
-  cp -R ../../resources/angular.json ./
+  cp -R $RESOURCE/angular.json ./
   sed -i.bkp "s/\$APP_NAME/$projectName/g" ./angular.json
   rm ./angular.json.bkp
 
@@ -133,6 +142,47 @@ function prepareProject() {
     ;;
   esac
 
+  #
+  # add Cordova Typing ...
+  mkdir ./typings
+  cp -R $RESOURCE/typings/* ./typings
+
+  #
+  # Add Ionic Support ...
+  echo " "
+  read -r -p "do you like to add ionic cli support to $projectName [y/n] ? " addIonicSupport
+  if [[ "$addIonicSupport" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    #
+    echo " "
+    echo "Add Ionic Support ..."
+    echo " "
+    pNameForId=$(tr A-Z a-z <<<$projectName)
+    ionicAppId="ir.saherelm.x-framewor.$pNameForId"
+    read -r -p "enter ionic appId (Reverse domain-style identifier) [$ionicAppId] ? " ionicAppId
+    $ionicAppId=$(tr A-Z a-z <<<$ionicAppId)
+    if [ ! -z "$ionicAppId" ]; then
+      echo " "
+      echo "preparing ionic app [$ionicAppId] ..."
+      #
+      # Preparing ionic config file ...
+      cp -R $RESOURCE/ionic.config.json ./
+      sed -i.bkp "s/\$APP_NAME/$projectName/g" ./ionic.config.json
+      rm ./ionic.config.json.bkp
+
+      #
+      # Preparing capacitor config file ...
+      cp -R $RESOURCE/capacitor.config.json ./
+      sed -i.bkp -e "s/\$APP_NAME/$projectName/g" -e "s/\$APP_ID/$ionicAppId/g" ./capacitor.config.json
+      rm ./capacitor.config.json.bkp
+
+      #
+      # Installing Dependencies ...
+      echo " "
+      echo "Installing Dependencies ..."
+      npm install -s @ionic-native/core @ionic-native/splash-screen @ionic-native/status-bar
+    fi
+  fi
+
   cd ..
 
   echo " "
@@ -149,11 +199,6 @@ function prepareProject() {
 function startup() {
   #
   # Check Pack Folder ...
-  PACK=./pack
-  VERSION=0.0.1
-  CORE=$PACK/x-framework-core-$VERSION.tgz
-  SERVICES=$PACK/x-framework-services-$VERSION.tgz
-  COMPONENTS=$PACK/x-framework-components-$VERSION.tgz
   if [ ! -d "resources" ]; then
     failed "Resources Folder doesn't exists ..."
   fi
