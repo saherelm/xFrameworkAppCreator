@@ -129,6 +129,12 @@ function prepareProject() {
   rm ./angular.json.bkp
 
   #
+  # prepare README.md ...
+  cp -R $RESOURCE/README.md ./
+  sed -i.bkp "s/\$APP_NAME/$projectName/g" ./README.md
+  rm ./README.md.bkp
+
+  #
   # Setting Startup Language ...
   echo " "
   echo "by default XFramework add support for en-US and fa-IR localizations"
