@@ -50,7 +50,7 @@ RUN mkdir /var/x-framework
 
 #
 # Clone AppCreator ...
-RUN git clone --recursive https://github.com/saherelm/xFrameworkAppCreator.git /var/x-framework
+RUN git clone --recurse-submodules https://github.com/saherelm/xFrameworkAppCreator.git /var/x-framework
 
 #
 # Working Directory ...
@@ -58,6 +58,10 @@ WORKDIR /var/x-framework
 RUN git submodule foreach 'git checkout master'
 RUN mkdir projects
 VOLUME [ "/var/x-framework/projects" ]
+
+#
+# Cleanup apt ...
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 #
 # Start ...
