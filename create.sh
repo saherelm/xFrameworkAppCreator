@@ -48,104 +48,104 @@ function prepareProject() {
 
   cd $projectName
 
-  echo " "
-  echo "add Angular Material ..."
-  read -r -p "press any key to coninue ..." anykey
-  ng add @angular/material
+  # echo " "
+  # echo "add Angular Material ..."
+  # read -r -p "press any key to coninue ..." anykey
+  # ng add @angular/material
 
   echo " "
   echo "Installing DevDependencies ..."
   read -r -p "press any key to coninue ..." anykey
-  npm install --save-dev @types/crypto-js@3.1.43 @types/howler@2.1.2 @ionic/angular-toolkit@2.2.0
+  npm install --save-dev @angular/cli @types/crypto-js@3.1.43 @types/howler@2.1.2 @ionic/angular-toolkit@2.2.0
 
-  echo " "
-  echo "Installing Dependencies ..."
-  read -r -p "press any key to coninue ..." anykey
-  npm install -s @angular/router @angular/material-moment-adapter @angular/flex-layout @ionic/angular hammerjs angular-gridster2@9.1.0 crypto-js@4.0.0 howler@2.1.3 jalali-moment@3.3.3 libphonenumber-js@1.7.48 md5-typescript@1.0.5 moment@2.24.0 ngx-device-detector@1.4.1 ngx-md@8.1.6 ol@6.2.1 ol-ext@3.1.10
+  # echo " "
+  # echo "Installing Dependencies ..."
+  # read -r -p "press any key to coninue ..." anykey
+  # npm install -s @angular/router @angular/material-moment-adapter @angular/flex-layout @ionic/angular hammerjs angular-gridster2@9.1.0 crypto-js@4.0.0 howler@2.1.3 jalali-moment@3.3.3 libphonenumber-js@1.7.48 md5-typescript@1.0.5 moment@2.24.0 ngx-device-detector@1.4.1 ngx-md@8.1.6 ol@6.2.1 ol-ext@3.1.10
 
-  echo " "
-  echo "Installing XFramework Modules ..."
-  read -r -p "press any key to coninue ..." anykey
-  CORE_ADDR=../../$CORE
-  SERVICES_ADDR=../../$SERVICES
-  COMPONENTS_ADDR=../../$COMPONENTS
-  npm install $CORE_ADDR $SERVICES_ADDR $COMPONENTS_ADDR
+  # echo " "
+  # echo "Installing XFramework Modules ..."
+  # read -r -p "press any key to coninue ..." anykey
+  # CORE_ADDR=../../$CORE
+  # SERVICES_ADDR=../../$SERVICES
+  # COMPONENTS_ADDR=../../$COMPONENTS
+  # npm install $CORE_ADDR $SERVICES_ADDR $COMPONENTS_ADDR
 
-  echo " "
-  echo "Integrating Assets ..."
-  read -r -p "press any key to coninue ..." anykey
-  cp -R ./node_modules/x-framework-components/assets/. ./src/assets/ || true
+  # echo " "
+  # echo "Integrating Assets ..."
+  # read -r -p "press any key to coninue ..." anykey
+  # cp -R ./node_modules/x-framework-components/assets/. ./src/assets/ || true
 
-  echo " "
-  echo "Integrating npm scripts ..."
-  read -r -p "press any key to coninue ..." anykey
-  prepareDependencies="fx package.json '{...this, scripts: {...this.scripts,  \"prepareDependencies\": \"npm i -s $CORE_ADDR $SERVICES_ADDR $COMPONENTS_ADDR\"}}' save .scripts"
-  eval $prepareDependencies
-  serveXFrameworkProject="fx package.json '{...this, scripts: {...this.scripts,  \"serveXFrameworkProject\": \"npm run prepareDependencies && ng serve -o\"}}' save .scripts"
-  eval $serveXFrameworkProject
+  # echo " "
+  # echo "Integrating npm scripts ..."
+  # read -r -p "press any key to coninue ..." anykey
+  # prepareDependencies="fx package.json '{...this, scripts: {...this.scripts,  \"prepareDependencies\": \"npm i -s $CORE_ADDR $SERVICES_ADDR $COMPONENTS_ADDR\"}}' save .scripts"
+  # eval $prepareDependencies
+  # serveXFrameworkProject="fx package.json '{...this, scripts: {...this.scripts,  \"serveXFrameworkProject\": \"npm run prepareDependencies && ng serve -o\"}}' save .scripts"
+  # eval $serveXFrameworkProject
 
-  echo " "
-  echo "Configure XFramework ..."
-  read -r -p "press any key to coninue ..." anykey
-  if [ ! -d "./src/app/config" ]; then
-    mkdir ./src/app/config
-  fi
-  cp -R $RESOURCE/config/. ./src/app/config/
-  cp -R $RESOURCE/environments/. ./src/environments
-  if [ -f "./src/favicon.ico" ]; then
-    rm ./src/favicon.ico || true
-  fi
-  cp -R $RESOURCE/favicon.png ./src/assets/icon/
-  mkdir ./src/assets/image
-  cp -R $RESOURCE/favicon.png ./src/assets/image/logo.png
-  cp -R $RESOURCE/index.html ./src/
-  cp -R $RESOURCE/main.ts ./src/
-  if [ -f "./src/styles.scss" ]; then
-    rm ./src/styles.scss || true
-  fi
-  if [ -f "./src/styles.css" ]; then
-    rm ./src/styles.css || true
-  fi
-  if [ -f "./src/app/app.component.css" ]; then
-    rm ./src/app/app.component.css || true
-  fi
-  if [ -f "./src/app/app.component.spec.ts" ]; then
-    rm ./src/app/app.component.spec.ts || true
-  fi
-  cp -R $RESOURCE/app.module.ts ./src/app
-  cp -R $RESOURCE/app.component.ts ./src/app
-  cp -R $RESOURCE/app.component.scss ./src/app
-  cp -R $RESOURCE/app.component.html ./src/app
-  cp -R $RESOURCE/app-routing.module.ts ./src/app
-  cp -R $RESOURCE/views/. ./src/app/views/
-  cp -R $RESOURCE/pages/. ./src/app/pages/
-  cp -R $RESOURCE/.editorconfig ./
-  cp -R $RESOURCE/theme/. ./src/theme
+  # echo " "
+  # echo "Configure XFramework ..."
+  # read -r -p "press any key to coninue ..." anykey
+  # if [ ! -d "./src/app/config" ]; then
+  #   mkdir ./src/app/config
+  # fi
+  # cp -R $RESOURCE/config/. ./src/app/config/
+  # cp -R $RESOURCE/environments/. ./src/environments
+  # if [ -f "./src/favicon.ico" ]; then
+  #   rm ./src/favicon.ico || true
+  # fi
+  # cp -R $RESOURCE/favicon.png ./src/assets/icon/
+  # mkdir ./src/assets/image
+  # cp -R $RESOURCE/favicon.png ./src/assets/image/logo.png
+  # cp -R $RESOURCE/index.html ./src/
+  # cp -R $RESOURCE/main.ts ./src/
+  # if [ -f "./src/styles.scss" ]; then
+  #   rm ./src/styles.scss || true
+  # fi
+  # if [ -f "./src/styles.css" ]; then
+  #   rm ./src/styles.css || true
+  # fi
+  # if [ -f "./src/app/app.component.css" ]; then
+  #   rm ./src/app/app.component.css || true
+  # fi
+  # if [ -f "./src/app/app.component.spec.ts" ]; then
+  #   rm ./src/app/app.component.spec.ts || true
+  # fi
+  # cp -R $RESOURCE/app.module.ts ./src/app
+  # cp -R $RESOURCE/app.component.ts ./src/app
+  # cp -R $RESOURCE/app.component.scss ./src/app
+  # cp -R $RESOURCE/app.component.html ./src/app
+  # cp -R $RESOURCE/app-routing.module.ts ./src/app
+  # cp -R $RESOURCE/views/. ./src/app/views/
+  # cp -R $RESOURCE/pages/. ./src/app/pages/
+  # cp -R $RESOURCE/.editorconfig ./
+  # cp -R $RESOURCE/theme/. ./src/theme
 
-  #
-  # Fix angular.json File ...
-  cp -R $RESOURCE/angular.json ./
-  sed -i.bkp "s/\$APP_NAME/$projectName/g" ./angular.json
-  rm ./angular.json.bkp
+  # #
+  # # Fix angular.json File ...
+  # cp -R $RESOURCE/angular.json ./
+  # sed -i.bkp "s/\$APP_NAME/$projectName/g" ./angular.json
+  # rm ./angular.json.bkp
 
-  #
-  # Setting Startup Language ...
-  echo " "
-  echo "by default XFramework add support for en-US and fa-IR localizations"
-  echo "you can add more localization supports later ..."
-  echo " "
-  read -r -p "Select default localization [en/fa(default)]: " locale
-  case $locale in
-  en | En | eN | EN)
-    sed -i.bkp "s/export const DefaultLocale: XLocale = 'fa-IR';/export const DefaultLocale: XLocale = 'en-US';/g" ./src/app/config/localization.config.ts
-    rm ./src/app/config/localization.config.ts.bkp
-    ;;
-  esac
+  # #
+  # # Setting Startup Language ...
+  # echo " "
+  # echo "by default XFramework add support for en-US and fa-IR localizations"
+  # echo "you can add more localization supports later ..."
+  # echo " "
+  # read -r -p "Select default localization [en/fa(default)]: " locale
+  # case $locale in
+  # en | En | eN | EN)
+  #   sed -i.bkp "s/export const DefaultLocale: XLocale = 'fa-IR';/export const DefaultLocale: XLocale = 'en-US';/g" ./src/app/config/localization.config.ts
+  #   rm ./src/app/config/localization.config.ts.bkp
+  #   ;;
+  # esac
 
-  #
-  # add Cordova Typing ...
-  mkdir ./typings
-  cp -R $RESOURCE/typings/* ./typings
+  # #
+  # # add Cordova Typing ...
+  # mkdir ./typings
+  # cp -R $RESOURCE/typings/* ./typings
 
   #
   # Add Ionic Support ...
@@ -157,9 +157,13 @@ function prepareProject() {
     echo "Add Ionic Support ..."
     echo " "
     pNameForId=$(tr A-Z a-z <<<$projectName)
-    ionicAppId="ir.saherelm.x-framewor.$pNameForId"
-    read -r -p "enter ionic appId (Reverse domain-style identifier) [$ionicAppId] ? " ionicAppId
-    $ionicAppId=$(tr A-Z a-z <<<$ionicAppId)
+    defIonicAppId="ir.saherelm.x-framewor.$pNameForId"
+    read -r -p "enter ionic appId (Reverse domain-style identifier) [$defIonicAppId] ? " ionicAppId
+    if [ -z "$ionicAppId" ]; then
+      ionicAppId=$(tr A-Z a-z <<<$defIonicAppId)
+    else
+      ionicAppId=$(tr A-Z a-z <<<$ionicAppId)
+    fi
     if [ ! -z "$ionicAppId" ]; then
       echo " "
       echo "preparing ionic app [$ionicAppId] ..."
