@@ -193,6 +193,17 @@ function prepareProject() {
     fi
   fi
 
+  #
+  # Add Pwa Support ...
+  echo " "
+  read -r -p "do you like to add PWA support to $projectName [y/n] ? " addPwaSupport
+  if [[ "$addPwaSupport" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    #
+    echo " "
+    echo "Add PWA Support ..."
+    ng add @angular/pwa
+  fi
+
   cd ..
 
   echo " "
