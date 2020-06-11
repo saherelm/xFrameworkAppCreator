@@ -189,7 +189,7 @@ function prepareProject() {
       # Installing Dependencies ...
       echo " "
       echo "Installing Dependencies ..."
-      npm install -s @ionic-native/core @ionic-native/splash-screen @ionic-native/status-bar
+      npm install -s @ionic-native/core @ionic-native/splash-screen @ionic-native/status-bar @angular/cli
     fi
   fi
 
